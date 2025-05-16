@@ -114,4 +114,5 @@ def update_umap(n_neighbors_aff, min_dist_aff, n_neighbors_eff, min_dist_eff):
     return fig_aff, fig_eff
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    # app.run_server(debug=True)
+    app.run(debug=True)
