@@ -8,7 +8,7 @@ from region_groupings import assign_group
 
 # -------- Sample Data (replace this with your real data) --------
 np.random.seed(42)
-df_average = pd.read_csv('./average_connectome_data.csv', header=0, index_col=0)
+df_average = pd.read_csv('./data/average_connectome_data.csv', header=0, index_col=0)
 
 # filter the afferent / efferent based on hippocampal connections, create similarity matrix
 hippocampal_regions = np.array(['DG','CA3','CA2','CA1v','CA1d','SUBv','SUBd'])

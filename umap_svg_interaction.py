@@ -12,7 +12,7 @@ from region_groupings import assign_group
 
 # --- Load in connectomics data (No changes made here) ---
 np.random.seed(42)
-df_average = pd.read_csv('./average_connectome_data.csv', header=0, index_col=0)
+df_average = pd.read_csv('./data/average_connectome_data.csv', header=0, index_col=0)
 
 hippocampal_regions = np.array(['DG','CA3','CA2','CA1v','CA1d','SUBv','SUBd'])
 df_avg_from = df_average[df_average.index.isin(hippocampal_regions)]
