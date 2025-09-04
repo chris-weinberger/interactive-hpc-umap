@@ -1,0 +1,4 @@
+.svg-wrap svg { max-width: 100%; height: auto; }
+.clickable-region { cursor: pointer; }
+.data-region { opacity: 0.35; transition: opacity 0.15s ease, stroke-width 0.15s ease; }
+.data-region.selected { opacity: 1.0; stroke: #000000; stroke-width: 1.2px; }
