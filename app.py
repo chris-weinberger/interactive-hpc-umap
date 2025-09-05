@@ -30,7 +30,7 @@ region_labels_afferent = [assign_group(r) for r in regions_afferent]
 region_labels_efferent = [assign_group(r) for r in regions_efferent]
 
 # --- Load SVG text ---
-SVG_PATH = Path(__file__).parent / "assets" / "rat_flatmap.svg"
+SVG_PATH = Path(__file__).parent / "assets" / "Edited_rat_flatmap.svg"
 svg_text = SVG_PATH.read_text(encoding="utf-8")
 
 app = Dash(__name__, suppress_callback_exceptions=True)
