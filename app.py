@@ -29,6 +29,40 @@ regions_efferent = list(df_avg_from.columns)
 region_labels_afferent = [assign_group(r) for r in regions_afferent]
 region_labels_efferent = [assign_group(r) for r in regions_efferent]
 
+# Add these two functions after the data loading section
+
+def create_initial_figure_aff(n_neighbors=3, min_dist=0.1, selected_regions=None):
+    """Creates the initial afferent UMAP plot."""
+    reducer = umap.UMAP(n_neighbors=n_neighbors, min_dist=min_dist, random_state=42)
+    embedding = reducer.fit_transform(df_avg_to.T)
+    df_plot = pd.DataFrame(embedding, columns=["x", "y"])
+    df_plot["region"] = regions_afferent
+    df_plot["group"] = region_labels_afferent
+    fig = px.scatter(
+        df_plot, x="x", y="y", color="group", hover_name="region",
+        title=f"Afferent UMAP (n={n_neighbors}, min_dist={min_dist})",
+        color_discrete_sequence=px.colors.qualitative.Plotly,
+        width=700, height=500
+    )
+    fig.update_traces(marker=dict(size=8, opacity=0.8, line=dict(width=1, color='DarkSlateGrey')))
+    return fig
+
+def create_initial_figure_eff(n_neighbors=10, min_dist=0.1, selected_regions=None):
+    """Creates the initial efferent UMAP plot."""
+    reducer = umap.UMAP(n_neighbors=n_neighbors, min_dist=min_dist, random_state=42)
+    embedding = reducer.fit_transform(df_avg_from.T)
+    df_plot = pd.DataFrame(embedding, columns=["x", "y"])
+    df_plot["region"] = regions_efferent
+    df_plot["group"] = region_labels_efferent
+    fig = px.scatter(
+        df_plot, x="x", y="y", color="group", hover_name="region",
+        title=f"Efferent UMAP (n={n_neighbors}, min_dist={min_dist})",
+        color_discrete_sequence=px.colors.qualitative.Plotly,
+        width=700, height=500
+    )
+    fig.update_traces(marker=dict(size=8, opacity=0.8, line=dict(width=1, color='DarkSlateGrey')))
+    return fig
+
 # --- Load SVG text ---
 SVG_PATH = Path(__file__).parent / "assets" / "Edited_rat_flatmap.svg"
 svg_text = SVG_PATH.read_text(encoding="utf-8")
@@ -109,9 +143,9 @@ app.layout = html.Div(
             # --- RIGHT COLUMN ---
             html.Div([
                 html.H2("UMAP Projections"),
-                # The plots will stack vertically by default
-                dcc.Graph(id='umap-plot-afferent'),
-                dcc.Graph(id='umap-plot-efferent')
+                # The plots now load with an initial figure, preventing a race condition
+                dcc.Graph(id='umap-plot-afferent', figure=create_initial_figure_aff()),
+                dcc.Graph(id='umap-plot-efferent', figure=create_initial_figure_eff())
             ], style={'flex': 1}), # End of Right Column
 
         ], style={'display': 'flex', 'flexDirection': 'row'}), # End of main flex container
@@ -137,7 +171,8 @@ def chip(label: str):
     Output('umap-plot-afferent', 'figure'),
     Input('n_neighbors_aff', 'value'),
     Input('min_dist_aff', 'value'),
-    Input('selected-store', 'data')
+    Input('selected-store', 'data'),
+    prevent_initial_call=True
 )
 def update_afferent_umap(n_neighbors, min_dist, selected_regions):
     """Updates the afferent UMAP plot when sliders or selections change."""
@@ -173,7 +208,8 @@ def update_afferent_umap(n_neighbors, min_dist, selected_regions):
     Output('umap-plot-efferent', 'figure'),
     Input('n_neighbors_eff', 'value'),
     Input('min_dist_eff', 'value'),
-    Input('selected-store', 'data')
+    Input('selected-store', 'data'),
+    prevent_initial_call=True
 )
 def update_efferent_umap(n_neighbors, min_dist, selected_regions):
     """Updates the efferent UMAP plot when sliders or selections change."""
