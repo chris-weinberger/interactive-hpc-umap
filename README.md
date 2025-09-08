@@ -1,6 +1,6 @@
 # Welcome to the Interactive Hippocampal UMAP App!
 
-This code is deployed live on Google Cloud! View it (here)[https://my-umap-service-168673687771.us-central1.run.app/]
+This code is deployed live on Google Cloud! View it [here](https://my-umap-service-168673687771.us-central1.run.app/)
 
 This is an app designed to allow users to interactively view differences in structural connectivity profiles involving the hippocampus in the rat brain. What does that mean? I'll break it down:
 
